@@ -1,0 +1,128 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+  DOCTOR
+  NURSE
+  RECEPTIONIST
+  PHARMACIST
+  LAB_TECHNICIAN
+  ACCOUNTANT
+  PATIENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  SUSPENDED
+  BLOCKED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+  FAILED
+}
+
+enum PaymentMethod {
+  CARD
+  CASH
+  UPI
+}
+
+// User Model
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role?     @default(USER)
+
+  createdAt DateTime @default(now())
+
+  patient   Patient?
+  doctor    Doctor?
+}
+
+// Patient Model
+model Patient {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  age       Int
+  gender    Gender
+  phone     String
+  address   String?
+
+  user      User     @relation(fields: [userId], references: [id])
+  appointments Appointment[]
+  records   MedicalRecord[]
+  billing   Billing[]
+}
+
+model Doctor {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  specialization String
+  experience     Int
+  phone         String
+
+  user          User     @relation(fields: [userId], references: [id])
+  appointments  Appointment[]
+  medicalrecord MedicalRecord[]
+}
+
+model MedicalRecord {
+  id         String   @id @default(cuid())
+  patientId  String
+  doctorId   String?
+  notes      String
+  createdAt  DateTime @default(now())
+
+  patient    Patient  @relation(fields: [patientId], references: [id])
+  doctor     Doctor?  @relation(fields: [doctorId], references: [id])
+}
+
+model Appointment {
+  id        String   @id @default(cuid())
+  patientId String
+  doctorId  String
+  date      DateTime
+  status    AppointmentStatus
+
+  patient   Patient @relation(fields: [patientId], references: [id])
+  doctor    Doctor  @relation(fields: [doctorId], references: [id])
+}
+
+model Billing {
+  id        String   @id @default(cuid())
+  patientId String
+  amount    Float
+  status    PaymentStatus
+  method    PaymentMethod
+
+  patient   Patient @relation(fields: [patientId], references: [id])
+}
