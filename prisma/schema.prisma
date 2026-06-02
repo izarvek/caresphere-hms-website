@@ -1,11 +1,11 @@
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
-
 enum Role {
   USER
   ADMIN
@@ -17,7 +17,6 @@ enum Role {
   ACCOUNTANT
   PATIENT
 }
-
 enum UserStatus {
   ACTIVE
   INACTIVE
@@ -25,14 +24,12 @@ enum UserStatus {
   SUSPENDED
   BLOCKED
 }
-
 enum Gender {
   MALE
   FEMALE
   OTHER
   PREFER_NOT_TO_SAY
 }
-
 enum AppointmentStatus {
   PENDING
   CONFIRMED
@@ -40,14 +37,12 @@ enum AppointmentStatus {
   CANCELLED
   NO_SHOW
 }
-
 enum PaymentStatus {
   PENDING
   PAID
   REFUNDED
   FAILED
 }
-
 enum PaymentMethod {
   CARD
   CASH
@@ -55,7 +50,7 @@ enum PaymentMethod {
 }
 
 // User Model
-model User {
+model user {
   id        String   @id @default(cuid())
   name      String?
   email     String   @unique
@@ -64,12 +59,12 @@ model User {
 
   createdAt DateTime @default(now())
 
-  patient   Patient?
-  doctor    Doctor?
+  patient   patient?
+  doctor    doctor?
 }
 
 // Patient Model
-model Patient {
+model patient {
   id        String   @id @default(cuid())
   userId    String   @unique
   age       Int
@@ -77,52 +72,52 @@ model Patient {
   phone     String
   address   String?
 
-  user      User     @relation(fields: [userId], references: [id])
-  appointments Appointment[]
-  records   MedicalRecord[]
-  billing   Billing[]
+  user      user     @relation(fields: [userId], references: [id])
+  appointments appointment[]
+  records   medical_record[]
+  billing   billing[]
 }
 
-model Doctor {
+model doctor {
   id            String   @id @default(cuid())
   userId        String   @unique
   specialization String
   experience     Int
   phone         String
 
-  user          User     @relation(fields: [userId], references: [id])
-  appointments  Appointment[]
-  medicalrecord MedicalRecord[]
+  user          user     @relation(fields: [userId], references: [id])
+  appointments  appointment[]
+  medicalrecord medical_record[]
 }
 
-model MedicalRecord {
+model medical_record {
   id         String   @id @default(cuid())
   patientId  String
   doctorId   String?
   notes      String
   createdAt  DateTime @default(now())
 
-  patient    Patient  @relation(fields: [patientId], references: [id])
-  doctor     Doctor?  @relation(fields: [doctorId], references: [id])
+  patient    patient  @relation(fields: [patientId], references: [id])
+  doctor     doctor?  @relation(fields: [doctorId], references: [id])
 }
 
-model Appointment {
+model appointment {
   id        String   @id @default(cuid())
   patientId String
   doctorId  String
   date      DateTime
   status    AppointmentStatus
 
-  patient   Patient @relation(fields: [patientId], references: [id])
-  doctor    Doctor  @relation(fields: [doctorId], references: [id])
+  patient   patient @relation(fields: [patientId], references: [id])
+  doctor    doctor  @relation(fields: [doctorId], references: [id])
 }
 
-model Billing {
+model billing {
   id        String   @id @default(cuid())
   patientId String
   amount    Float
   status    PaymentStatus
   method    PaymentMethod
 
-  patient   Patient @relation(fields: [patientId], references: [id])
+  patient   patient @relation(fields: [patientId], references: [id])
 }
