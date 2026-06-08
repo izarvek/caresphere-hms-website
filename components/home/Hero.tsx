@@ -1,5 +1,4 @@
 import React from "react";
-import { Star } from "lucide-react"
 import { FaStar } from "react-icons/fa";
 
 const Hero = () => {

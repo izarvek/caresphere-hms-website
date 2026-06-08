@@ -43,7 +43,10 @@ export async function POST(req: Request) {
         role: user.role,
       },
     });
-  } catch (error: any) {
-    return Response.json({ message: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Internal Server Error";
+
+    return Response.json({ message }, { status: 500 });
   }
 }
