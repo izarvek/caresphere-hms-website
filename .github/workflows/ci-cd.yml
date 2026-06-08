@@ -24,7 +24,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: mydb
+          POSTGRES_DB: caresphere_db
 
         ports:
           - 5433:5432
@@ -36,7 +36,7 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5433/mydb
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5433/caresphere_db
 
     steps:
 
