@@ -3,8 +3,7 @@ import React, { memo } from "react";
 interface BadgeProps {
   title: string;
 }
-
-const Badge = memo(({title}: BadgeProps) => {
+const Badge = ({ title }: BadgeProps) => {
   return (
     <div className="flex items-center justify-center w-full mt-20">
       <span className="relative inline-flex items-center rounded-full bg-white border border-gray-200 px-4 py-1.5 text-sm font-medium text-gray-700 shadow-sm">
@@ -16,6 +15,6 @@ const Badge = memo(({title}: BadgeProps) => {
       </span>
     </div>
   );
-});
+};
 
-export default Badge;
+export default memo(Badge);

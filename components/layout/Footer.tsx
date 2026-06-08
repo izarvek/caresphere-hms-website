@@ -1,6 +1,7 @@
 import { footerLinksData } from "@/public/data/footer-data";
 import React, { memo } from "react";
-const Footer = memo(() => {
+
+const Footer = () => {
   return (
     <div className="bg-white pt-16 pb-12 mt-20 border-t border-gray-200 font-sans">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -82,6 +83,6 @@ const Footer = memo(() => {
       </div>
     </div>
   );
-});
+};
 
-export default Footer;
+export default memo(Footer);

@@ -1,5 +1,4 @@
 import React from "react";
-import { HeartPulse, Clock, Cpu } from "lucide-react";
 import Badge from "../ui/Badge";
 import Title from "../ui/Title";
 import { choosingReasonsData } from "@/public/data/reasond-data";
