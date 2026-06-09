@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { FaStar } from "react-icons/fa";
 
@@ -6,9 +7,12 @@ const Hero = () => {
     <div className="relative rounded-2xl overflow-hidden  aspect-auto">
 
       <div className="w-full h-full">
-        <img 
-        src="/images/home/banner.png" alt="" 
-        className="w-full h-full object-cover hover:brightness-105 transition duration-300 ease-in-out" 
+        <Image 
+          src="/images/home/banner.png" 
+          alt="" 
+          className="w-full h-full object-cover hover:brightness-105 transition duration-300 ease-in-out" 
+          width={1200}
+          height={600}
         />
       </div>
        

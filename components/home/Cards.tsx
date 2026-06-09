@@ -1,4 +1,5 @@
 import { hospitalData } from '@/public/data/cards-data';
+import Image from 'next/image';
 import React, { memo } from 'react';
 
 const Cards = () => {
@@ -12,10 +13,12 @@ const Cards = () => {
           >
             {/* Image Placeholder */}
             <div className="h-48 w-full bg-gray-200 overflow-hidden">
-              <img 
+              <Image 
                 src={hospital.image} 
                 alt={hospital.title} 
                 className="w-full h-full object-cover transition-all hover:scale-105 duration-300 ease-in-out" 
+                width={500}
+                height={300}
               />
             </div>
             

@@ -2,6 +2,7 @@ import React from "react";
 import Badge from "../ui/Badge";
 import Title from "../ui/Title";
 import { choosingReasonsData } from "@/public/data/reasond-data";
+import Image from "next/image";
 
 const WhyCareSphere = () => {
   return (
@@ -15,10 +16,12 @@ const WhyCareSphere = () => {
 
         {/* Hero Image */}
         <div className="w-full rounded-lg overflow-hidden mb-12 shadow-sm aspect-[16/7]">
-          <img
+          <Image
             src="/images/home/why-choose-caresphere.jpg"
             alt="Doctor smiling with a patient"
             className="w-full object-cover object-bottom hover:brightness-105 transition-all duration-300 ease-in-out"
+            width={1200}
+            height={600}
           />
         </div>
 
