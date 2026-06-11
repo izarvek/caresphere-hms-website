@@ -1,3 +1,4 @@
+import { Link } from 'lucide-react'
 import React from 'react'
 
 const NotFound = () => {
@@ -28,19 +29,19 @@ const NotFound = () => {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center justify-center rounded-2xl bg-cyan-600 px-6 py-3 text-white font-semibold shadow-lg shadow-cyan-600/25 transition hover:bg-cyan-700 hover:-translate-y-0.5"
               >
                 Go to Home
-              </a>
+              </Link>
 
-              <a
+              <Link
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-cyan-200 hover:text-cyan-700 hover:-translate-y-0.5"
               >
                 Contact Support
-              </a>
+              </Link>
             </div>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-3">

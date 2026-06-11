@@ -1,5 +1,4 @@
 import React from 'react'
-import Title from '../ui/Title'
 
 const ServicesHero = () => {
   return (
