@@ -5,7 +5,7 @@ import React, { memo } from "react";
 const Footer = () => {
   return (
     <div className="bg-white pt-16 pb-12 mt-20 border-t border-gray-200 font-sans">
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-8">
           <div className="lg:col-span-2 flex flex-col pr-4">
             <div className="flex items-center gap-2 mb-6">
