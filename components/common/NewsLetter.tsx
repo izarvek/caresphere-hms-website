@@ -18,13 +18,13 @@ const NewsLetter = () => {
               <input 
                 type="email" 
                 placeholder="Enter your email address" 
-                className="px-2 flex md:px-8 lg:px-10 xl:px-14 py-3 text-lg bg-transparent rounded-full focus:outline-none text-gray-900 placeholder:text-gray-400"
+                className="px-2 flex md:px-8 lg:px-10 xl:px-14 py-3 text-sm lg:text-lg bg-transparent rounded-full focus:outline-none text-gray-900 placeholder:text-gray-400"
               />
               <button 
                 type="submit" 
-                className=" bg-blue-600 text-white font-bold px-4 sm:px-10 py-1 sm:py-2 rounded-full text-xs sm:text-md md:text-lg shadow hover:bg-blue-700 transition duration-300"
+                className=" bg-blue-600 text-white font-bold px-4 sm:px-10 py-1 sm:py-2 rounded-full text-sm sm:text-md md:text-lg shadow hover:bg-blue-700 transition duration-300"
               >
-                Subscribe Now
+                Subscribe <span className='hidden sm:block'>Now</span>
               </button>
             </div>
           </form>
