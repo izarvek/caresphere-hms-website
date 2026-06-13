@@ -5,7 +5,7 @@ import Badge from "../ui/Badge";
 
 const Testimonials = () => {
   return (
-    <section className="bg-blue-600 px-4 py-10 sm:px-6 lg:px-8 rounded-2xl">
+    <section className="bg-blue-600 px-4 py-10 sm:px-6 lg:px-8 rounded-2xl mt-14">
       <div className="mx-auto max-w-7xl">
         <Badge title="Testimonial" />
         <div className="mb-10 text-center mt-6">
