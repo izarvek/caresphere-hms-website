@@ -5,7 +5,7 @@ import { servicesData } from "@/public/data/services-data";
 
 const ServicesCards = () => {
   return (
-     <section className="w-full mt-15">
+     <section className="w-full mt-10">
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {servicesData.map((service) => (
           <article

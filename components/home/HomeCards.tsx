@@ -23,7 +23,7 @@ const Cards = () => {
             </div>
             
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-500 transition-all duration-200 ease-in-out">
+              <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-cyan-500 transition-all duration-200 ease-in-out">
                 {hospital.title}
               </h2>
               <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -31,7 +31,7 @@ const Cards = () => {
               </p>
               
               <div className="flex justify-between items-center text-sm">
-                <span className="font-semibold text-blue-600">★ {hospital.rating}</span>
+                <span className="font-semibold text-cyan-600">★ {hospital.rating}</span>
                 <span className="text-gray-500">{hospital.location}</span>
               </div>
             </div>

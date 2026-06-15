@@ -5,9 +5,7 @@ import { missionVisionData } from "@/public/data/mission-vision-data";
 const AboutMissionVision = () => {
   return (
     <div className="bg-white">
-      <Title title="Our Mission & Vision" />
-
-      <div className="mt-10 overflow-hidden rounded-2xl">
+      <div className="overflow-hidden rounded-2xl">
         <img
           src="/images/about/banner.png"
           alt="Medical team standing together"

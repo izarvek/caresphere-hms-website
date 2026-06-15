@@ -5,7 +5,7 @@ import Badge from "../ui/Badge";
 
 const Testimonials = () => {
   return (
-    <section className="bg-blue-600 px-4 py-10 sm:px-6 lg:px-8 rounded-2xl mt-14">
+    <section className="bg-cyan-600 px-4 py-10 sm:px-6 lg:px-8 rounded-2xl mt-14">
       <div className="mx-auto max-w-7xl">
         <Badge title="Testimonial" />
         <div className="mb-10 text-center mt-6">
@@ -13,7 +13,7 @@ const Testimonials = () => {
             What Our Patients Say
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-blue-100 sm:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-cyan-100 sm:text-base">
             Real stories from patients who experienced our care, support, and
             commitment first-hand.
           </p>

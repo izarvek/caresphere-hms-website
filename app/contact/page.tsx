@@ -11,7 +11,6 @@ const page = () => {
     <div className="px-4 sm:px-8 md:px-14 lg:px-20 xl:px-28">
         <Navbar/>
         <ContactHero/>
-        <Title title="We’re Here to Help?" />
         <ContactHelp/>
         <NewsLetter/>
         <Footer/>

@@ -34,7 +34,7 @@ const WhyCareSphere = () => {
                 key={reason._id}
                 className="bg-white rounded-3xl p-8 shadow-sm border border-gray-50 hover:shadow-md transition-shadow duration-300"
               >
-                <div className="w-12 h-12 bg-[#0052FF] rounded-full flex items-center justify-center mb-6 text-white">
+                <div className="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center mb-6 text-white">
                   <IconComponent size={24} strokeWidth={2} />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">

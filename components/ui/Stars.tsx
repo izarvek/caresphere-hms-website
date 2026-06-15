@@ -7,7 +7,7 @@ const Stars = ({ rating = 5 }) => {
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className={`h-4 w-4 text-blue-500 ${
+          className={`h-4 w-4 text-cyan-500 ${
             i < rating ? "fill-current" : ""
           }`}
         />

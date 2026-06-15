@@ -5,7 +5,7 @@ const NotFound = () => {
   return (
       <div className="mt-10">
         <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-cyan-200/40 blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-cyan-200/40 blur-3xl" />
 
         <div className="relative grid gap-10 lg:grid-cols-2 p-8 sm:p-12 lg:p-16">
           <div className="flex flex-col justify-center">
@@ -64,7 +64,7 @@ const NotFound = () => {
 
           <div className="flex items-center justify-center">
             <div className="relative w-full max-w-md">
-              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-cyan-500/10 to-blue-500/10 blur-2xl" />
+              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-cyan-500/10 to-cyan-500/10 blur-2xl" />
 
               <div className="relative rounded-[2rem] border border-slate-200 bg-white p-6 sm:p-8 shadow-xl">
                 <div className="flex items-center justify-between">

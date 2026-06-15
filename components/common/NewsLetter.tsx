@@ -3,7 +3,7 @@ import Badge from "../ui/Badge";
 
 const NewsLetter = () => {
   return (
-    <section className="bg-blue-600 rounded-xl  p-10 shadow-2xl w-full mt-14">
+    <section className="bg-cyan-600 rounded-xl  p-10 shadow-sm w-full mt-14">
       <div className="flex flex-col items-center justify-center text-center space-y-12 pb-10">
         <Badge title="Newsletter" />
         <h1 className="text-4xl md:text-7xl font-bold text-white tracking-tighter leading-tight">
@@ -23,7 +23,7 @@ const NewsLetter = () => {
 
             <button
               type="submit"
-              className="shrink-0 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 sm:px-6 md:px-8 md:text-base"
+              className="shrink-0 rounded-full bg-cyan-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700 sm:px-6 md:px-8 md:text-base"
             >
               <span>Subscribe</span>
               <span className="hidden sm:inline"> Now</span>
