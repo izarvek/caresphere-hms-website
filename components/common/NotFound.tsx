@@ -4,9 +4,6 @@ import React from 'react'
 const NotFound = () => {
   return (
       <div className="mt-10">
-        <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-cyan-200/40 blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-cyan-200/40 blur-3xl" />
-
         <div className="relative grid gap-10 lg:grid-cols-2 p-8 sm:p-12 lg:p-16">
           <div className="flex flex-col justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100 bg-cyan-50 px-4 py-2 text-sm font-medium text-cyan-700 w-fit">

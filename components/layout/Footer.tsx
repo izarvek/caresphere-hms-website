@@ -4,7 +4,7 @@ import React, { memo } from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-white pt-16 pb-12 mt-20 border-t border-gray-200 font-sans">
+    <div className="bg-white pt-16 pb-12 mt-10 border-t border-gray-200 font-sans">
       <div className="flex justify-between">
         <div className="lg:col-span-2 flex flex-col pr-4">
           <div className="flex items-center gap-2 mb-6">

@@ -16,10 +16,6 @@ import {
   Stethoscope,
 } from 'lucide-react';
 
-// type NavbarProps = {
-//   token: boolean; // true = logged in, false = logged out
-// };
-
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
@@ -28,7 +24,11 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const token = true
+  const [token, setToken] = useState(null);
+   useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -48,7 +48,6 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // clear token from storage / cookie from your auth flow
     localStorage.removeItem('token');
     router.push('/');
     router.refresh();

@@ -45,6 +45,7 @@ export async function POST(req: Request) {
         email: user.email,
         role: user.role,
       },
+      token,
     });
   } catch (error: unknown) {
     const message =
