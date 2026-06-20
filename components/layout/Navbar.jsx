@@ -11,8 +11,6 @@ import {
   LayoutDashboard,
   CalendarCheck2,
   UserCircle2,
-  LogOut,
-  Stethoscope,
 } from 'lucide-react';
 
 const navLinks = [
