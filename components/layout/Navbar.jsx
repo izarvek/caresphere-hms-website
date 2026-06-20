@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -47,12 +46,6 @@ const Navbar = () => {
     setProfileOpen(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    router.push('/');
-    router.refresh();
-  };
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white backdrop-blur-md">
       <div className="flex h-16 items-center justify-between">
@@ -91,7 +84,7 @@ const Navbar = () => {
             <>
               <button
                 onClick={() => handleNavigate('/login')}
-                className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition bg-slate-50 hover:bg-slate-100"
               >
                 Sign In
               </button>
@@ -140,32 +133,6 @@ const Navbar = () => {
                   <UserCircle2 className="h-5 w-5" />
                   <ChevronDown className="h-4 w-4" />
                 </button>
-
-                {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
-                    <button
-                      onClick={() => handleNavigate('/profile')}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-slate-700 hover:bg-slate-50"
-                    >
-                      <UserCircle2 className="h-4 w-4" />
-                      My Profile
-                    </button>
-                    <button
-                      onClick={() => handleNavigate('/dashboard')}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-slate-700 hover:bg-slate-50"
-                    >
-                      <LayoutDashboard className="h-4 w-4" />
-                      Dashboard
-                    </button>
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Logout
-                    </button>
-                  </div>
-                )}
               </div>
             </>
           )}
@@ -233,12 +200,6 @@ const Navbar = () => {
                   className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700"
                 >
                   My Profile
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="rounded-xl border border-red-200 px-4 py-3 text-sm font-medium text-red-600"
-                >
-                  Logout
                 </button>
               </div>
             )}

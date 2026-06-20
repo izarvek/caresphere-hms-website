@@ -1,6 +1,6 @@
 import Footer from '@/components/layout/Footer'
 import Navbar from '@/components/layout/Navbar'
-import NotFound from '@/components/common/NotFound'
+import NotFound from '@/components/common/CommonNotFound'
 import React from 'react'
 
 const notFound = () => {
