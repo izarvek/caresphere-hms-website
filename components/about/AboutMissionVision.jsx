@@ -1,16 +1,20 @@
 import React from "react";
-import Title from "../ui/Title";
+import Image from "next/image";
 import { missionVisionData } from "@/public/data/mission-vision-data";
 
 const AboutMissionVision = () => {
   return (
     <div className="bg-white">
       <div className="overflow-hidden rounded-2xl">
-        <img
-          src="/images/about/banner.png"
-          alt="Medical team standing together"
-          className="h-[360px] w-full object-cover object-top sm:h-[600px]"
-        />
+        <div className="relative h-[360px] w-full sm:h-[600px]">
+          <Image
+            src="/images/about/banner.png"
+            alt="Medical team standing together"
+            fill
+            className="object-cover object-top"
+            priority
+          />
+        </div>
       </div>
 
       <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-12">

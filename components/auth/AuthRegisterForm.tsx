@@ -18,9 +18,7 @@ export default function AuthRegister() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -32,7 +30,9 @@ export default function AuthRegister() {
     const hasNumber = /[0-9]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-\\/[\];'`~+=]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-\\/[\];'`~+=]/.test(
+      password,
+    );
 
     return (
       hasMinLength &&
@@ -55,7 +55,7 @@ export default function AuthRegister() {
 
     if (!isStrongPassword(formData.password)) {
       setError(
-        "Password must be at least 8 characters and include a number, uppercase letter, lowercase letter, and special character"
+        "Password must be at least 8 characters and include a number, uppercase letter, lowercase letter, and special character",
       );
       return;
     }
@@ -78,14 +78,14 @@ export default function AuthRegister() {
         password: "",
         confirmPassword: "",
       });
-    } catch (err: any) {
-      setError(
-        err?.response?.data?.message ||
-          "Something went wrong. Please try again."
-      );
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setLoading(false);
-      
     }
   };
 
@@ -170,9 +170,7 @@ export default function AuthRegister() {
               />
               <button
                 type="button"
-                onClick={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-600"
               >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -203,7 +201,10 @@ export default function AuthRegister() {
 
         <p className="mt-6 text-center text-sm text-slate-500">
           Already have an account?{" "}
-          <a href="/login" className="font-semibold text-cyan-600 hover:underline">
+          <a
+            href="/login"
+            className="font-semibold text-cyan-600 hover:underline"
+          >
             Login
           </a>
         </p>
