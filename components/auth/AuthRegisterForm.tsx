@@ -1,11 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { api } from "@/lib/axios/axios";
 import { Eye, EyeOff } from "lucide-react";
 
+type FormData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type RegisterResponse = {
+  message?: string;
+};
+
 export default function AuthRegister() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
@@ -18,11 +29,13 @@ export default function AuthRegister() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const isStrongPassword = (password: string) => {
@@ -30,9 +43,7 @@ export default function AuthRegister() {
     const hasNumber = /[0-9]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-\\/[\];'`~+=]/.test(
-      password,
-    );
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-\\/[\];'`~+=]/.test(password);
 
     return (
       hasMinLength &&
@@ -43,7 +54,7 @@ export default function AuthRegister() {
     );
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setMessage("");
@@ -69,9 +80,9 @@ export default function AuthRegister() {
         password: formData.password,
       };
 
-      const res = await api.post("/api/auth/register", payload);
+      const res = await api.post<RegisterResponse>("/api/auth/register", payload);
 
-      setMessage(res.data?.message || "Registration successful");
+      setMessage(res.data.message ?? "Registration successful");
       setFormData({
         name: "",
         email: "",
@@ -90,9 +101,9 @@ export default function AuthRegister() {
   };
 
   return (
-    <div className="flex items-center justify-center px-4 mt-10">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-sm border border-cyan-100 p-8">
-        <div className="text-center mb-8">
+    <div className="mt-10 flex items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-cyan-100 bg-white p-8 shadow-sm">
+        <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-slate-900">Create Account</h1>
           <p className="mt-2 text-sm text-slate-500">
             Register to get started with your account
@@ -146,7 +157,8 @@ export default function AuthRegister() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-600"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -170,7 +182,10 @@ export default function AuthRegister() {
               />
               <button
                 type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                aria-label={
+                  showConfirmPassword ? "Hide confirm password" : "Show confirm password"
+                }
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-600"
               >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -201,10 +216,7 @@ export default function AuthRegister() {
 
         <p className="mt-6 text-center text-sm text-slate-500">
           Already have an account?{" "}
-          <a
-            href="/login"
-            className="font-semibold text-cyan-600 hover:underline"
-          >
+          <a href="/login" className="font-semibold text-cyan-600 hover:underline">
             Login
           </a>
         </p>

@@ -4,8 +4,18 @@ import { useState } from "react";
 import { api } from "@/lib/axios/axios";
 import { Eye, EyeOff } from "lucide-react";
 
+type LoginFormData = {
+  email: string;
+  password: string;
+};
+
+type LoginResponse = {
+  token?: string;
+  user?: unknown;
+};
+
 export default function AuthLogin() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
@@ -15,9 +25,11 @@ export default function AuthLogin() {
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -28,7 +40,7 @@ export default function AuthLogin() {
       setLoading(true);
       setError("");
 
-      const response = await api.post("/api/auth/login", {
+      const response = await api.post<LoginResponse>("/api/auth/login", {
         email: formData.email,
         password: formData.password,
       });
@@ -55,34 +67,32 @@ export default function AuthLogin() {
 
   return (
     <div className="flex items-center justify-center px-4 mt-10">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-cyan-100 p-8">
-        <div className="text-center mb-8">
+      <div className="w-full max-w-md rounded-2xl border border-cyan-100 bg-white p-8 shadow-sm">
+        <div className="mb-8 text-center">
           <h1 className="mt-4 text-3xl font-bold text-slate-900">
             Welcome Back
           </h1>
-
           <p className="mt-2 text-slate-500">Sign in to your account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="mb-2 block text-sm font-medium text-slate-700">
               Email Address
             </label>
-
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="john@example.com"
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500 transition"
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="mb-2 block text-sm font-medium text-slate-700">
               Password
             </label>
 
@@ -93,14 +103,15 @@ export default function AuthLogin() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter password"
-                className="w-full rounded-2xl border border-slate-200 px-4 py-3 pr-12 outline-none focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500 transition"
+                className="w-full rounded-2xl border border-slate-200 px-4 py-3 pr-12 outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100"
                 required
               />
 
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500"
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -125,7 +136,7 @@ export default function AuthLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-2xl bg-cyan-500 py-3 font-semibold text-white hover:bg-cyan-600 transition disabled:opacity-70"
+            className="w-full rounded-2xl bg-cyan-500 py-3 font-semibold text-white transition hover:bg-cyan-600 disabled:opacity-70"
           >
             {loading ? "Signing In..." : "Sign In"}
           </button>
