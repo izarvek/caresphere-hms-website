@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Title from "../ui/Title";
 
 const achievementsData = [
@@ -44,9 +45,11 @@ const AboutAchievements = () => {
           </div>
 
           <div className="overflow-hidden rounded-2xl">
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80"
               alt="Medical team discussing patient care"
+              width={1200}
+              height={840}
               className="h-full min-h-[420px] w-full object-cover"
             />
           </div>

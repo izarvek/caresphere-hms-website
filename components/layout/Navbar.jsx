@@ -131,6 +131,25 @@ const Navbar = () => {
                   <UserCircle2 className="h-5 w-5" />
                   <ChevronDown className="h-4 w-4" />
                 </button>
+                {profileOpen && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute right-0 mt-2 w-44 rounded-xl border border-slate-200 bg-white p-2 shadow-lg"
+                  >
+                    <button
+                      onClick={() => handleNavigate('/profile')}
+                      className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-50"
+                    >
+                      My Profile
+                    </button>
+                    <button
+                      onClick={() => handleNavigate('/logout')}
+                      className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-50"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </>
           )}

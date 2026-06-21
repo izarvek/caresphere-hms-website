@@ -4,7 +4,6 @@ import Navbar from "@/components/layout/Navbar";
 import ServicesCards from "@/components/services/ServicesCards";
 import ServicesHero from "@/components/services/ServicesHero";
 import SearchBar from "@/components/ui/SearchBar";
-import Title from "@/components/ui/Title";
 import React from "react";
 
 const searchItems = [
