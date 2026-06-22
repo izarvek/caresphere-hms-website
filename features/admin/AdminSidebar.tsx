@@ -332,6 +332,7 @@ export default function AdminSidebar() {
           <p className="text-xs text-slate-500">Light dashboard shell</p>
         </div>
       </div>
+      
       <nav className="flex-1 overflow-y-auto px-3 pb-5 mt-4">
         <div className="space-y-5">
           {sections.map((section) => (

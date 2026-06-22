@@ -1,8 +1,7 @@
-import UserSidebar from "@/features/user/UserSidebar";
-import UserTopBar from "@/features/user/UserTopbar";
+import DoctorSidebar from "@/features/doctor/DoctorSidebar";
+import DoctorTopBar from "@/features/doctor/DoctorTopbar";
 
-
-export default function UserLayout({
+export default function DoctorLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,9 +9,9 @@ export default function UserLayout({
   return (
     <div className="px-4 sm:px-8 md:px-14 lg:px-20 xl:px-28 ">
       <div className="flex">
-        <UserSidebar />
+        <DoctorSidebar />
         <div className="flex flex-col w-full h-full">
-          <UserTopBar />
+          <DoctorTopBar />
           <div>
             <main>{children}</main>
           </div>

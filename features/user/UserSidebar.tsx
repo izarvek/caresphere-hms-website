@@ -191,7 +191,6 @@ export default function UserSidebar() {
                   <span>{item.title}</span>
                 </div>
 
-                <ChevronRight className="h-4 w-4" />
               </Link>
             );
           })}
