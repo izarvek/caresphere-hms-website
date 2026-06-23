@@ -1,5 +1,5 @@
 import UserSidebar from "@/features/user/UserSidebar";
-import UserTopBar from "@/features/user/UserTopBar";
+import UserTopBar from "@/features/user/UserTopbar";
 
 
 export default function UserLayout({
