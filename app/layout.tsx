@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { inter, roboto } from "@/public/fonts/fonts";
-import "./globals.css";
+import "./globals.css"
 
 export const metadata = {
   title: "CareSphere",
