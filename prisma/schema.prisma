@@ -7,6 +7,8 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+
 enum Role {
   USER
   ADMIN
@@ -18,6 +20,7 @@ enum Role {
   ACCOUNTANT
   PATIENT
 }
+
 enum UserStatus {
   ACTIVE
   INACTIVE
@@ -25,12 +28,14 @@ enum UserStatus {
   SUSPENDED
   BLOCKED
 }
+
 enum Gender {
   MALE
   FEMALE
   OTHER
   PREFER_NOT_TO_SAY
 }
+
 enum AppointmentStatus {
   PENDING
   CONFIRMED
@@ -38,90 +43,126 @@ enum AppointmentStatus {
   CANCELLED
   NO_SHOW
 }
+
 enum PaymentStatus {
   PENDING
   PAID
   REFUNDED
   FAILED
 }
+
 enum PaymentMethod {
   CARD
   CASH
   UPI
 }
 
-// User Model
-model user {
-  id        String   @id @default(cuid())
+
+model User {
+  id        String     @id @default(cuid())
   name      String?
-  email     String   @unique
+  email     String     @unique
   password  String
   avatar    String?
-  role      Role?     @default(USER)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role       @default(USER)
   status    UserStatus @default(ACTIVE)
 
-  patient   patient?
-  doctor    doctor?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  patient   Patient?
+  doctor    Doctor?
+
+  @@index([email])
+  @@index([role])
 }
 
-// Patient Model
-model patient {
+
+model Patient {
   id        String   @id @default(cuid())
   userId    String   @unique
   age       Int
   gender    Gender
-  phone     String
+  phone     String   @unique
   address   String?
 
-  user      user     @relation(fields: [userId], references: [id])
-  appointments appointment[]
-  records   medical_record[]
-  billing   billing[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  records   MedicalRecord[]
+  billing   Billing[]
+
+  @@index([userId])
+  @@index([phone])
 }
 
-model doctor {
-  id            String   @id @default(cuid())
-  userId        String   @unique
+model Doctor {
+  id             String   @id @default(cuid())
+  userId         String   @unique
   specialization String
   experience     Int
-  phone         String
+  phone          String   @unique
 
-  user          user     @relation(fields: [userId], references: [id])
-  appointments  appointment[]
-  medicalrecord medical_record[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments  Appointment[]
+  medicalRecords MedicalRecord[]
+
+  @@index([userId])
 }
 
-model medical_record {
+model Appointment {
+  id        String            @id @default(cuid())
+  patientId String
+  doctorId  String
+  date      DateTime
+  status    AppointmentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor    Doctor  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([date])
+}
+
+model MedicalRecord {
   id         String   @id @default(cuid())
   patientId  String
   doctorId   String?
   notes      String
+
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  patient    patient  @relation(fields: [patientId], references: [id])
-  doctor     doctor?  @relation(fields: [doctorId], references: [id])
+  patient    Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor     Doctor?  @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+
+  @@index([patientId])
+  @@index([doctorId])
 }
 
-model appointment {
-  id        String   @id @default(cuid())
-  patientId String
-  doctorId  String
-  date      DateTime
-  status    AppointmentStatus
-
-  patient   patient @relation(fields: [patientId], references: [id])
-  doctor    doctor  @relation(fields: [doctorId], references: [id])
-}
-
-model billing {
-  id        String   @id @default(cuid())
+model Billing {
+  id        String        @id @default(cuid())
   patientId String
   amount    Float
-  status    PaymentStatus
+  status    PaymentStatus @default(PENDING)
   method    PaymentMethod
 
-  patient   patient @relation(fields: [patientId], references: [id])
+  invoiceNo String        @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+  @@index([status])
 }

@@ -1,9 +1,11 @@
+import { NextResponse } from "next/server";
+import { Role } from "@prisma/client";
 import { registerSchema } from "@/schemas/auth.schema";
 
 import {
   findUserByEmail,
-  hashedPassword,
   createUser,
+  hashPassword,
   generateAuthTokens,
 } from "@/services/auth.service";
 
@@ -11,13 +13,12 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { name, email, password } =
-      registerSchema.parse(body);
-
+    const { name, email, password } = registerSchema.parse(body);
+      
     const existingUser = await findUserByEmail(email);
-
+     
     if (existingUser) {
-      return Response.json(
+      return NextResponse.json(
         {
           message: "User already exists",
         },
@@ -27,20 +28,23 @@ export async function POST(req: Request) {
       );
     }
 
-    const passwordHash =
-      await hashedPassword(password);
+    const passwordHash = await hashPassword(password);
+      
 
     const user = await createUser({
       name,
       email,
       password: passwordHash,
-      role: "USER",
+      role: Role.USER,
     });
 
-    const { accessToken, refreshToken } =
-      generateAuthTokens(user);
+    const { accessToken, refreshToken } = generateAuthTokens({
+        id: user.id,
+        email: user.email,
+        role: user.role ?? Role.USER,
+      });
 
-    const response = Response.json(
+    const response = NextResponse.json(
       {
         message: "Registration successful",
         accessToken,
@@ -56,25 +60,30 @@ export async function POST(req: Request) {
       }
     );
 
-    response.headers.append(
-      "Set-Cookie",
-      `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict${
-        process.env.NODE_ENV === "production"
-          ? "; Secure"
-          : ""
-      }`
+    response.cookies.set(
+      "refreshToken",
+      refreshToken,
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      }
     );
 
     return response;
-  } catch (error: unknown) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Internal Server Error";
-
-    return Response.json(
-      { message },
-      { status: 500 }
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message:
+          error instanceof Error
+            ? error.message
+            : "Internal Server Error",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }

@@ -1,9 +1,11 @@
+import { NextResponse } from "next/server";
+import { Role } from "@prisma/client";
 import { loginSchema } from "@/schemas/auth.schema";
+
 import {
   findUserByEmail,
   verifyPassword,
   generateAuthTokens,
-  setRefreshTokenCookie,
 } from "@/services/auth.service";
 
 export async function POST(req: Request) {
@@ -11,33 +13,45 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const { email, password } = loginSchema.parse(body);
-
+      
     const user = await findUserByEmail(email);
-
+     
     if (!user) {
-      return Response.json(
-        { message: "Invalid email or password" },
-        { status: 401 }
+      return NextResponse.json(
+        {
+          message:
+            "Invalid email or password",
+        },
+        {
+          status: 401,
+        }
       );
     }
 
     const isPasswordValid = await verifyPassword(
-      password,
-      user.password
-    );
+        password,
+        user.password
+      );
 
     if (!isPasswordValid) {
-      return Response.json(
-        { message: "Invalid email or password" },
-        { status: 401 }
+      return NextResponse.json(
+        {
+          message:
+            "Invalid email or password",
+        },
+        {
+          status: 401,
+        }
       );
     }
-    
-    const { accessToken, refreshToken } = generateAuthTokens(user);
 
-    await setRefreshTokenCookie(refreshToken);
+    const { accessToken, refreshToken } = generateAuthTokens({
+        id: user.id,
+        email: user.email,
+        role: user.role ?? Role.USER,
+      });
 
-    return Response.json(
+    const response = NextResponse.json(
       {
         message: "Login successful",
         accessToken,
@@ -48,17 +62,35 @@ export async function POST(req: Request) {
           role: user.role,
         },
       },
-      { status: 200 }
+      {
+        status: 200,
+      }
     );
-  } catch (error: unknown) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Internal Server Error";
 
-    return Response.json(
-      { message },
-      { status: 500 }
+    response.cookies.set(
+      "refreshToken",
+      refreshToken,
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      }
+    );
+
+    return response;
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message:
+          error instanceof Error
+            ? error.message
+            : "Internal Server Error",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }
