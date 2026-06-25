@@ -1,52 +1,80 @@
-import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/schemas/auth.schema";
+
 import {
   findUserByEmail,
-  generateCookie,
-  generateToken,
   hashedPassword,
+  createUser,
+  generateAuthTokens,
 } from "@/services/auth.service";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const parsedData = registerSchema.parse(body);
-    const { name, email, password } = parsedData;
+
+    const { name, email, password } =
+      registerSchema.parse(body);
+
     const existingUser = await findUserByEmail(email);
 
     if (existingUser) {
-      return Response.json({ message: "User already exists" }, { status: 400 });
+      return Response.json(
+        {
+          message: "User already exists",
+        },
+        {
+          status: 409,
+        }
+      );
     }
 
-    const hashedPass = await hashedPassword(password);
+    const passwordHash =
+      await hashedPassword(password);
 
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPass,
-        role: "USER",
-      },
+    const user = await createUser({
+      name,
+      email,
+      password: passwordHash,
+      role: "USER",
     });
 
-    // route.ts
-    const token = generateToken(user);
-    await generateCookie(token);
+    const { accessToken, refreshToken } =
+      generateAuthTokens(user);
 
-    // 7. RESPONSE
-    return Response.json({
-      message: "User registered successfully",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
+    const response = Response.json(
+      {
+        message: "Registration successful",
+        accessToken,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
       },
-    });
+      {
+        status: 201,
+      }
+    );
+
+    response.headers.append(
+      "Set-Cookie",
+      `refreshToken=${refreshToken}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict${
+        process.env.NODE_ENV === "production"
+          ? "; Secure"
+          : ""
+      }`
+    );
+
+    return response;
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "Internal Server Error";
+      error instanceof Error
+        ? error.message
+        : "Internal Server Error";
 
-    return Response.json({ message }, { status: 500 });
+    return Response.json(
+      { message },
+      { status: 500 }
+    );
   }
 }
