@@ -1,5 +1,5 @@
 import AdminSidebar from "@/features/admin/AdminSidebar";
-import AdminTopBar from "@/features/admin/AdminTopbar";
+import AdminTopbar from "@/features/admin/AdminTopbar";
 
 export default function AdminLayout({
   children,
@@ -11,7 +11,7 @@ export default function AdminLayout({
       <div className="flex">
         <AdminSidebar />
         <div className="flex flex-col w-full h-full">
-          <AdminTopBar />
+          <AdminTopbar />
           <div>
             <main>{children}</main>
           </div>
