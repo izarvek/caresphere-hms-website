@@ -10,7 +10,7 @@ type LoginFormData = {
 };
 
 type LoginResponse = {
-  token?: string;
+  accessToken?: string;
   user?: unknown;
 };
 
@@ -45,15 +45,14 @@ export default function AuthLogin() {
         password: formData.password,
       });
 
-      const { token, user } = response.data;
+      const { accessToken } = response.data;
 
-      if (token) {
-        localStorage.setItem("token", token);
+      if (accessToken) {
+        localStorage.setItem("accessToken", accessToken);
       }
 
-      console.log(user);
-
       window.location.href = "/";
+      
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

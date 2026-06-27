@@ -1,62 +1,126 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig,} from "axios";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: API_URL,
   timeout: 10000,
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json", },
 });
 
-// Request Interceptor
-api.interceptors.request.use(
-  (config) => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem("token")
-        : null;
+let isRefreshing = false;
+let refreshPromise: Promise<string> | null = null;
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+interface RetryRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
+// --------------------
+// Request Interceptor
+// --------------------
+
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (typeof window !== "undefined") {
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
     }
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error),
 );
 
+// --------------------
+// Refresh Token Helper
+// --------------------
+
+const refreshAccessToken = async (): Promise<string> => {
+  const response = await axios.post(
+    `${API_URL}/auth/refresh`,
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+
+  const accessToken = response.data.accessToken;
+
+  localStorage.setItem("accessToken", accessToken);
+
+  return accessToken;
+};
+
+// --------------------
 // Response Interceptor
+// --------------------
+
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          console.error("Unauthorized");
 
-          localStorage.removeItem("token");
+  async (error: AxiosError) => {
+    const originalRequest = error.config as RetryRequestConfig;
 
-          if (typeof window !== "undefined") {
-            window.location.href = "/login";
-          }
-          break;
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
 
-        case 403:
-          console.error("Forbidden");
-          break;
+      try {
+        if (!isRefreshing) {
+          isRefreshing = true;
 
-        case 500:
-          console.error("Server Error");
-          break;
+          refreshPromise = refreshAccessToken();
 
-        default:
-          console.error(error.response.data);
+          const newAccessToken = await refreshPromise;
+
+          isRefreshing = false;
+          refreshPromise = null;
+
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+          return api(originalRequest);
+        }
+
+        if (refreshPromise) {
+          const newAccessToken = await refreshPromise;
+
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+          return api(originalRequest);
+        }
+      } catch {
+        isRefreshing = false;
+        refreshPromise = null;
+
+        localStorage.removeItem("accessToken");
+
+        if (typeof window !== "undefined") {
+          window.location.replace("/login");
+        }
+
+        return Promise.reject(error);
       }
     }
 
+    switch (error.response?.status) {
+      case 403:
+        console.error("Forbidden");
+        break;
+
+      case 500:
+        console.error("Internal Server Error");
+        break;
+
+      default:
+        break;
+    }
+
     return Promise.reject(error);
-  }
+  },
 );

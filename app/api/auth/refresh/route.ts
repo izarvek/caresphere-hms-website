@@ -2,12 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { Role } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-
-import {
-  verifyRefreshToken,
-  generateAccessToken,
-  type JwtPayload,
-} from "@/services/auth.service";
+import { verifyRefreshToken, generateAccessToken, type JwtPayload,} from "@/services/auth.service";
 
 type RefreshDecoded = {
   id: string;
