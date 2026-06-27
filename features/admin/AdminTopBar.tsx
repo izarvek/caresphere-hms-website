@@ -14,7 +14,7 @@ import {
   Shield,
 } from "lucide-react";
 
-export default function AdminTopBar() {
+export default function AdminTopbar() {
   const router = useRouter();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);

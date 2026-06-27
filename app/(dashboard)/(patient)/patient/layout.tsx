@@ -1,6 +1,5 @@
 import PatientSidebar from "@/features/patient/PatientSidebar";
-import PatientTopBar from "@/features/patient/PatientTopBar";
-
+import PatientTopbar from "@/features/patient/PatientTopbar";
 
 export default function DoctorLayout({
   children,
@@ -12,7 +11,7 @@ export default function DoctorLayout({
       <div className="flex">
         <PatientSidebar/>
         <div className="flex flex-col w-full h-full">
-          <PatientTopBar/>
+          <PatientTopbar/>
           <div>
             <main>{children}</main>
           </div>

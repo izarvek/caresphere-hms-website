@@ -1,7 +1,7 @@
-import AdminSidebar from "@/features/admin/AdminSidebar";
-import AdminTopBar from "@/features/admin/AdminTopbar";
+import ReceptionistSidebar from "@/features/receptionist/ReceptionistSidebar";
+import ReceptionistTopbar from "@/features/receptionist/ReceptionistTopbar";
 
-export default function AdminLayout({
+export default function DoctorLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -9,9 +9,9 @@ export default function AdminLayout({
   return (
     <div className="px-4 sm:px-8 md:px-14 lg:px-20 xl:px-28 ">
       <div className="flex">
-        <AdminSidebar />
+        <ReceptionistSidebar/>
         <div className="flex flex-col w-full h-full">
-          <AdminTopBar />
+          <ReceptionistTopbar/>
           <div>
             <main>{children}</main>
           </div>

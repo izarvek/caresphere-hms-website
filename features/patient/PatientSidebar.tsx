@@ -291,7 +291,7 @@ export default function PatientSidebar() {
 
           <div className="min-w-0">
             <p className="truncate font-semibold text-slate-900">
-              Patient Portal
+              Patient Dashboard
             </p>
             <p className="truncate text-xs text-slate-500">
               Health Management System

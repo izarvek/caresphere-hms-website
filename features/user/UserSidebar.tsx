@@ -94,7 +94,7 @@ export default function UserSidebar() {
 
           <div>
             <h2 className="font-semibold text-slate-900">
-              User Portal
+              User Dashboard
             </h2>
 
             <p className="text-xs text-slate-500">

@@ -14,7 +14,7 @@ import {
   Menu,
 } from "lucide-react";
 
-export default function UserTopBar() {
+export default function ReceptionistTopbar() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,7 +23,7 @@ export default function UserTopBar() {
 
         <div>
           <p className="text-base font-semibold text-slate-900 sm:text-lg">
-            User Dashboard
+            Receptionist Dashboard
           </p>
           <p className="hidden text-xs text-slate-500 sm:block">
             Manage your account and activity

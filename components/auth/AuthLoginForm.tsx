@@ -19,7 +19,6 @@ export default function AuthLogin() {
     email: "",
     password: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
